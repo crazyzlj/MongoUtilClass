@@ -27,3 +27,8 @@
 *.exe
 *.out
 *.app
+bin
+build
+cmake-build-debug
+.idea/
+.DS_Store
