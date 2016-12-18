@@ -1,5 +1,5 @@
 /*!
- * \brief Utility functions of mongoDB
+ * \brief Utility functions of MongoDB
  * \author Junzhi Liu, LiangJun Zhu
  * \date May 2016
  *
@@ -9,13 +9,42 @@
 
 #include <mongoc.h>
 #include <vector>
+#include <string>
 #include <set>
 #include "util.h"
 #include "ModelException.h"
 
 using namespace std;
 
-template<typename T> class clsRasterData;
+//template<typename T> class clsRasterData;
+
+/*!
+ * \brief Check if the IP address is vaild.
+ */
+bool isIPAddress(const char *ip);
+class MongoClient
+{
+public:
+    /*!
+     * \brief Constructor
+     * Get a client for a MongoDB instance
+     */
+    MongoClient(const char* host, int port);
+    /*!
+     * \brief Destructor
+     */
+    ~MongoClient();
+    /*!
+     * \brief Get database names
+     * \return Database names, vector<string>
+     */
+     vector<string> database_names();
+private:
+    mongoc_client_t *conn;
+    vector<string> db_names;
+};
+
+//mongoc_client_t* MongoClient(const char* host, int port);
 
 /*!
  * \brief Get Integer value from \a bson_iter_t 
@@ -131,86 +160,62 @@ extern void Read1DArrayFromMongoDB(mongoc_gridfs_t *spatialData, string &remoteF
  */
 extern void Read2DArrayFromMongoDB(mongoc_gridfs_t *spatialData, string &remoteFilename, int &rows, int& cols, float **&data);
 ///*!
-// * \brief Read 2D raster data from MongoDB database
-// *
+// * \brief Read IUH data from MongoDB database
+// * Not sure the different with \sa Read2DArrayFromMongoDB
 // * \param[in] spatialData \a mongoc_gridfs_t
 // * \param[in] remoteFilename \string data file name
-// * \param[in] templateRaster \clsRasterData*
-// * \param[out] num \int&,  valid cell numbers of single layer raster
-// * \param[out] lyrs \int&,  valid cell numbers of single layer raster
-// * \param[out] data \float**&, returned data
-// * \sa Read2DArrayFromMongoDB()
-// */
-//extern void Read2DRasterFromMongoDB(mongoc_gridfs_t* spatialData, string& remoteFilename, clsRasterData* templateRaster, int& num, int& lyrs, float*& data);
-
-///*!
-// * \brief Read 2D soil attribute data from MongoDB database
-// *
-// * \param[in] spatialData \a mongoc_gridfs_t
-// * \param[in] remoteFilename \string data file name
-// * \param[in] templateRaster \clsRasterData*
-// * \param[out] n \int&, valid cell number 
+// * \param[out] n \int&, valid cell number
 // * \param[out] data \float*&, returned data
-// * \deprecated Replaced by \sa Read2DArrayFromMongoDB()
 // */
-//extern void Read2DSoilAttr(mongoc_gridfs_t* spatialData, string remoteFilename, clsRasterData* templateRaster, int& n, float**& data);
-/*!
- * \brief Read IUH data from MongoDB database
- * Not sure the different with \sa Read2DArrayFromMongoDB
- * \param[in] spatialData \a mongoc_gridfs_t
- * \param[in] remoteFilename \string data file name
- * \param[out] n \int&, valid cell number
- * \param[out] data \float*&, returned data
- */
-extern void ReadIUHFromMongoDB(mongoc_gridfs_t *spatialData, string &remoteFilename, int &n, float **&data);
-
-/*!
- * \brief Read Longterm multi reach information from MongoDB database
- * Assume the reaches table contains all the reaches information
- * \param[in] conn \a mongoc_client_t
- * \param[in] dbName model name, which contains parameters and spatial database
- * \param[out] nr Field number in REACH table
- * \param[out] nc Number of reaches
- * \param[out] data \float*&, returned data
- */
-extern void ReadLongTermMutltiReachInfo(mongoc_client_t *conn, string &dbName, int &nr, int &nc, float **&data);
-
-/*!
- * \brief Read Longterm reach information from MongoDB database
- * \param[in] conn \a mongoc_client_t
- * \param[in] dbName model name, which contains parameters and spatial database
- * \param[in] subbasinID subbasin ID
- * \param[out] nr Field number in REACH table
- * \param[out] nc Number of reaches
- * \param[out] data \float*&, returned data
- */
-extern void ReadLongTermReachInfo(mongoc_client_t *conn, string &dbName, int subbasinID, int &nr, int &nc,
-                                  float **&data);
-
-/*!
- * \brief Read multi reach information from MongoDB database
- * Assume the reaches table contains all the reaches information
- * \param[in] layeringMethod \sa LayeringMethod
- * \param[in] conn \a mongoc_client_t
- * \param[in] dbName model name, which contains parameters and spatial database
- * \param[out] nr Field number in REACH table
- * \param[out] nc Number of reaches
- * \param[out] data \float*&, returned data
- */
-extern void ReadMutltiReachInfoFromMongoDB(LayeringMethod layeringMethod, mongoc_client_t *conn, string &dbName,
-                                           int &nr, int &nc, float **&data);
-
-/*!
- * \brief Read single reach information from MongoDB database
- * Assume the reaches table contains all the reaches information
- * \param[in] layeringMethod \sa LayeringMethod
- * \param[in] conn \a mongoc_client_t
- * \param[in] dbName model name, which contains parameters and spatial database
- * \param[in] subbasinID subbasin ID
- * \param[out] nr Field number in REACH table
- * \param[out] nc Number of reaches
- * \param[out] data \float*&, returned data
- */
-extern void ReadReachInfoFromMongoDB(LayeringMethod layeringMethod, mongoc_client_t *conn, string &dbName,
-                                     int nSubbasin, int &nr, int &nc, float **&data);
-
+//extern void ReadIUHFromMongoDB(mongoc_gridfs_t *spatialData, string &remoteFilename, int &n, float **&data);
+//
+///*!
+// * \brief Read Longterm multi reach information from MongoDB database
+// * Assume the reaches table contains all the reaches information
+// * \param[in] conn \a mongoc_client_t
+// * \param[in] dbName model name, which contains parameters and spatial database
+// * \param[out] nr Field number in REACH table
+// * \param[out] nc Number of reaches
+// * \param[out] data \float*&, returned data
+// */
+//extern void ReadLongTermMutltiReachInfo(mongoc_client_t *conn, string &dbName, int &nr, int &nc, float **&data);
+//
+///*!
+// * \brief Read Longterm reach information from MongoDB database
+// * \param[in] conn \a mongoc_client_t
+// * \param[in] dbName model name, which contains parameters and spatial database
+// * \param[in] subbasinID subbasin ID
+// * \param[out] nr Field number in REACH table
+// * \param[out] nc Number of reaches
+// * \param[out] data \float*&, returned data
+// */
+//extern void ReadLongTermReachInfo(mongoc_client_t *conn, string &dbName, int subbasinID, int &nr, int &nc,
+//                                  float **&data);
+//
+///*!
+// * \brief Read multi reach information from MongoDB database
+// * Assume the reaches table contains all the reaches information
+// * \param[in] layeringMethod \sa LayeringMethod
+// * \param[in] conn \a mongoc_client_t
+// * \param[in] dbName model name, which contains parameters and spatial database
+// * \param[out] nr Field number in REACH table
+// * \param[out] nc Number of reaches
+// * \param[out] data \float*&, returned data
+// */
+//    extern void ReadMutltiReachInfoFromMongoDB(LayeringMethod layeringMethod, mongoc_client_t *conn, string &dbName,
+//                                           int &nr, int &nc, float **&data);
+//
+///*!
+// * \brief Read single reach information from MongoDB database
+// * Assume the reaches table contains all the reaches information
+// * \param[in] layeringMethod \sa LayeringMethod
+// * \param[in] conn \a mongoc_client_t
+// * \param[in] dbName model name, which contains parameters and spatial database
+// * \param[in] subbasinID subbasin ID
+// * \param[out] nr Field number in REACH table
+// * \param[out] nc Number of reaches
+// * \param[out] data \float*&, returned data
+// */
+//extern void ReadReachInfoFromMongoDB(LayeringMethod layeringMethod, mongoc_client_t *conn, string &dbName,
+//                                     int nSubbasin, int &nr, int &nc, float **&data);
+//
