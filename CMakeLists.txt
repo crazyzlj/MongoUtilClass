@@ -19,15 +19,34 @@ else ()
     add_definitions(-Dlinux)
 endif ()
 ################# Find packages ##################
-# Bson and MongoC are required
+# 1. Bson and MongoC are required
 include(FindBson.cmake)
 include(FindMongoC.cmake)
 include_directories(${BSON_INCLUDE_DIR} ${MONGOC_INCLUDE_DIR})
-################# Packages found ##################
-set(UTILS_INC ../UtilsClass)
-set(UTILS_FILES ../UtilsClass/utils.cpp ../UtilsClass/util.cpp ../UtilsClass/StringList.cpp ../UtilsClass/ModelException.cpp)
+# 2. Add support for OpenMP (if supported)
+find_package(OpenMP)
+IF (OPENMP_FOUND)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+ENDIF ()
+################ Add executables #################
+set(UTILS_INC ${CMAKE_CURRENT_SOURCE_DIR}/../UtilsClass)
+set(UTILS_FILES ${UTILS_INC}/utils.cpp ${UTILS_INC}/util.cpp ${UTILS_INC}/StringList.cpp ${UTILS_INC}/ModelException.cpp)
 set(SOURCE_FILES main.cpp MongoUtil.cpp)
 include_directories(${UTILS_INC})
 add_executable(MongoUtil ${SOURCE_FILES} ${UTILS_FILES})
 target_link_libraries(MongoUtil ${BSON_LIBRARIES} ${MONGOC_LIBRARIES})
-install(TARGETS ${MongoUtil} DESTINATION bin)
+install(TARGETS MongoUtil DESTINATION bin)
+################# Windows Only  ##################
+# Since mongoc_lib_dir is stored in Environment path, there is no need to
+# copy dynamic libraries to the bin directory.
+# Just remain for memory. -- LJ
+# IF(WIN32)
+#   # for compile executables
+#   install(FILES ${BSON_DLL} ${MONGOC_DLL} DESTINATION bin)
+#   # for build vs project
+#   IF(MSVC)
+#     SET(EXTERNAL_DLLS ${BSON_DLL} ${MONGOC_DLL})
+#     FILE(COPY ${EXTERNAL_DLLS} DESTINATION Debug)
+#     FILE(COPY ${EXTERNAL_DLLS} DESTINATION Release)
+#   ENDIF()
+# ENDIF()
