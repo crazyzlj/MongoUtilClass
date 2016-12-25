@@ -19,6 +19,18 @@ using namespace std;
 //template<typename T> class clsRasterData;
 
 /*!
+ * \brief Macro definitions of Raster of Watershed modeling datasets for I/O in MongoDB
+ * \version 1.0
+ * \author Liangjun Zhu
+ */
+#define MONG_GRIDFS_FN                "filename"
+#define MONG_GRIDFS_WEIGHT_CELLS    "NUM_CELLS"
+#define MONG_GRIDFS_WEIGHT_SITES    "NUM_SITES"
+#define MONG_GRIDFS_ID                "ID"
+#define MONG_GRIDFS_SUBBSN            "SUBBASIN"
+
+
+/*!
  * \brief Check if the IP address is vaild.
  */
 bool isIPAddress(const char *ip);
