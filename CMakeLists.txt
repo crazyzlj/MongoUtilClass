@@ -30,7 +30,7 @@ IF (OPENMP_FOUND)
 ENDIF ()
 ################ Add executables #################
 set(UTILS_INC ${CMAKE_CURRENT_SOURCE_DIR}/../UtilsClass)
-set(UTILS_FILES ${UTILS_INC}/utils.cpp ${UTILS_INC}/util.cpp ${UTILS_INC}/StringList.cpp ${UTILS_INC}/ModelException.cpp)
+set(UTILS_FILES ${UTILS_INC}/utils.cpp  ${UTILS_INC}/ModelException.cpp)
 set(SOURCE_FILES main.cpp MongoUtil.cpp)
 include_directories(${UTILS_INC} ${BSON_INCLUDE_DIR} ${MONGOC_INCLUDE_DIR})
 add_executable(MongoUtil ${SOURCE_FILES} ${UTILS_FILES})
