@@ -7,6 +7,14 @@
 
 + Author: [Liangjun Zhu](http://zhulj.net)
 
+Selected build environments:
+
++ Windows-MSVC 2013-64bit: [![Build status](https://ci.appveyor.com/api/projects/status/b3eu2hfca1mte3ta?svg=true)](https://ci.appveyor.com/project/lreis-2415/mongoutilclass)
++ Linux(Ubuntu trusty)-GCC-4.8: [![Build Status](http://badges.herokuapp.com/travis/lreis2415/MongoUtilClass?branch=master&env=BUILD_NAME=linux_gcc48&label=linux_gcc48)](https://travis-ci.org/lreis2415/MongoUtilClass)
++ macOS-Clang-7.3: [![Build Status](http://badges.herokuapp.com/travis/lreis2415/MongoUtilClass?branch=master&env=BUILD_NAME=osx_xcode&label=osx_clang)](https://travis-ci.org/lreis2415/MongoUtilClass)
+
+Code coverage: [![codecov](https://codecov.io/gh/lreis2415/MongoUtilClass/branch/master/graph/badge.svg)](https://codecov.io/gh/lreis2415/MongoUtilClass)
+
 ## 1 Introduction
 + MongoUtilClass提供基本的MongoDB数据库操作。
 + MongoUtilClass可单独调试，也可作为其他项目的基础类。
