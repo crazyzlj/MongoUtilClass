@@ -1,5 +1,4 @@
 # MongoUtilClass
-================
 
 + Handing data with MongoDB using mongo-c-driver.
 
@@ -22,7 +21,7 @@ Code coverage: [![codecov](https://codecov.io/gh/lreis2415/MongoUtilClass/branch
 ## 2 Install mongo-c-driver
 
 ### 2.1 On Windows
-+ Windows开发环境推荐采用Microsoft Visual Studio 2010 或更高
++ Windows开发环境推荐采用Microsoft Visual Studio 2013 或更高
 + 从[官网](http://mongoc.org/ "mongo-c-driver-download")下载源码压缩包，目前最新稳定版本为[1.5.0](https://github.com/mongodb/mongo-c-driver/releases/download/1.5.0/mongo-c-driver-1.5.0.tar.gz "mongo-c-driver-1.5.0")，解压缩至当前文件夹，如`C:\z_code\Repos\mongo-c-driver-1.5.0`
 + 打开cmd，依次输入如下命令，默认的安装目录为`C:\mongo-c-driver`
 
@@ -31,11 +30,11 @@ Code coverage: [![codecov](https://codecov.io/gh/lreis2415/MongoUtilClass/branch
 	mkdir mongo-c-driver
 	cd C:\z_code\Repos\mongo-c-driver-1.5.0
 	cd src\libbson
-	cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -G "Visual Studio 10 2010"
+	cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -G "Visual Studio 12 2012 Win64"
 	msbuild.exe ALL_BUILD.vcxproj
 	msbuild.exe INSTALL.vcxproj
 	cd ..\..
-	cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -DBSON_ROOT_DIR=C:\mongo-c-driver -G "Visual Studio 10 2010"
+	cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -DBSON_ROOT_DIR=C:\mongo-c-driver -G "Visual Studio 12 2012 Win64"
 	msbuild.exe ALL_BUILD.vcxproj
 	msbuild.exe INSTALL.vcxproj
 	```
@@ -96,7 +95,7 @@ Code coverage: [![codecov](https://codecov.io/gh/lreis2415/MongoUtilClass/branch
 + MongoUtilClass需调用[UtilsClass](https://github.com/lreis2415/UtilsClass)，编译前需将其保存至MongoUtilClass**同级目录**下。
 
 ### 3.1 Windows
-+ 打开 “开始” -> Microsoft Visual Studio 2010 -> Visual Studio Tools -> Visual Studio 命令提示(2010)，以**管理员方式**运行，依次输入以下命令：
++ 打开 “开始” -> Microsoft Visual Studio 2013 -> Visual Studio Tools -> Visual Studio 命令提示(2013)，以**管理员方式**运行，依次输入以下命令：
 	
 	```shell
 	cd <path-to-MongoUtilClass>
