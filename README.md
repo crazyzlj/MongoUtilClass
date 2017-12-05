@@ -1,4 +1,5 @@
 # MongoUtilClass
+----------------
 
 + Handing data with MongoDB using mongo-c-driver.
 
@@ -30,11 +31,11 @@ Code coverage: [![codecov](https://codecov.io/gh/lreis2415/MongoUtilClass/branch
 	mkdir mongo-c-driver
 	cd C:\z_code\Repos\mongo-c-driver-1.5.0
 	cd src\libbson
-	cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -G "Visual Studio 12 2012 Win64"
+	cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -G "Visual Studio 12 2013 Win64"
 	msbuild.exe ALL_BUILD.vcxproj
 	msbuild.exe INSTALL.vcxproj
 	cd ..\..
-	cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -DBSON_ROOT_DIR=C:\mongo-c-driver -G "Visual Studio 12 2012 Win64"
+	cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -DBSON_ROOT_DIR=C:\mongo-c-driver -G "Visual Studio 12 2013 Win64"
 	msbuild.exe ALL_BUILD.vcxproj
 	msbuild.exe INSTALL.vcxproj
 	```
@@ -90,9 +91,11 @@ Code coverage: [![codecov](https://codecov.io/gh/lreis2415/MongoUtilClass/branch
 
 + 至此，`mongo-c-driver`即编译安装完成了，在`/usr/local/include`目录下能看到`libbson-1.0`, `libmongoc-1.0`文件夹，链接库则在`/usr/local/lib`。
 
-## 3 MongoUtilClass测试
+## 3 单元测试
 + MongoUtilClass采用CMake进行跨平台编译。
++ MongoUtilClass采用[Google Test](https://github.com/google/googletest)单元测试框架。
 + MongoUtilClass需调用[UtilsClass](https://github.com/lreis2415/UtilsClass)，编译前需将其保存至MongoUtilClass**同级目录**下。
++ 所有单元测试代码统一唯一`test`文件夹下，并以`Test_XX.cpp`格式命名。
 
 ### 3.1 Windows
 + 打开 “开始” -> Microsoft Visual Studio 2013 -> Visual Studio Tools -> Visual Studio 命令提示(2013)，以**管理员方式**运行，依次输入以下命令：
@@ -101,17 +104,27 @@ Code coverage: [![codecov](https://codecov.io/gh/lreis2415/MongoUtilClass/branch
 	cd <path-to-MongoUtilClass>
 	mkdir build
 	cd build
-	### 仅编译安装 ###
-	cmake -G "NMake Makefiles" <path-to-MongoUtilClass> -DCMAKE_BUILD_TYPE=Release
-	nmake
-	nmake install
 	### 编译Microsoft Visual Studio工程 ###
-	cmake <path-to-MongoUtilClass>
+	cmake -G "Visual Studio 12 2013 Win64" -DUNITTEST=1 ..
 	nmake
 	```
+	
++ `MongoUtil.sln`将保存在`<path-to-MongoUtilClass>\build`目录下，编译
+运行`UnitTests_Mongo`项即可看到当前所有单元测试项的结果，如：
 
-+ 对于“仅编译安装”操作，`MongoUtilClass.exe`会自动安装在`<path-to-MongoUtilClass>\bin`目录下。
-+ 对于“编译Microsoft Visual Studio工程”，`MongoUtil.sln`将保存在`<path-to-MongoUtilClass>\build`目录下。
+    ```shell
+    Running main() from gtest_main.cc
+    [==========] Running 1 test from 1 test case.
+    [----------] Global test environment set-up.
+    [----------] 1 test from Test_Mongo
+    [ RUN      ] Test_Mongo.initMongoDB
+    [       OK ] Test_Mongo.initMongoDB (260 ms)
+    [----------] 1 test from Test_Mongo (261 ms total)
+    
+    [----------] Global test environment tear-down
+    [==========] 1 test from 1 test case ran. (262 ms total)
+    [  PASSED  ] 1 test.
+    ```
 
 ### 3.2 Linux
 + 打开终端，依次输入如下命令
@@ -121,13 +134,14 @@ Code coverage: [![codecov](https://codecov.io/gh/lreis2415/MongoUtilClass/branch
 	mkdir build
 	cd build
 	cmake ..
-	make
-	make install
+	cmake -DCMAKE_BUILD_TYPE=Debug -DUNITTEST=1 ..
+    make
+    make UnitTestCoverage
 	```
-+ 可执行程序`MongoUtil`默认安装于`MongoUtilClass/bin`下
+
 + 如果希望采用其他GCC安装版本，请在cmake命令后面追加：`-DCMAKE_C_COMPILER=~/gcc4.8.4/bin/gcc -DCMAKE_CXX_COMPILER=~/gcc4.8.4/bin/g++`
 
 ### 3.3 macOS
 
-+ macOS的编译、安装步骤与Linux相同。
-+ macOS下推荐采用CLion进行代码调试。
++ 参考Linux下操作。
+

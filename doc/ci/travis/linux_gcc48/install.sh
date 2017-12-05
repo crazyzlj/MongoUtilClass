@@ -1,8 +1,6 @@
 #!/bin/sh
 
 set -e
-
-set -e
 sudo pip install codecov
 echo ${PATH}
 echo ${CXX}
